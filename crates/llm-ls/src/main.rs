@@ -608,16 +608,16 @@ impl Backend {
                 "received completion request for {}",
                 params.text_document_position.text_document.uri
             );
-            if params.api_token.is_none() {
-                let now = Instant::now();
-                let unauthenticated_warn_at = self.unauthenticated_warn_at.read().await;
-                if now.duration_since(*unauthenticated_warn_at) > MAX_WARNING_REPEAT {
-                    drop(unauthenticated_warn_at);
-                    self.client.show_message(MessageType::WARNING, "You are currently unauthenticated and will get rate limited. To reduce rate limiting, login with your API Token and consider subscribing to PRO: https://huggingface.co/pricing#pro").await;
-                    let mut unauthenticated_warn_at = self.unauthenticated_warn_at.write().await;
-                    *unauthenticated_warn_at = Instant::now();
-                }
-            }
+            //if params.api_token.is_none() {
+            //    let now = Instant::now();
+            //    let unauthenticated_warn_at = self.unauthenticated_warn_at.read().await;
+            //    if now.duration_since(*unauthenticated_warn_at) > MAX_WARNING_REPEAT {
+            //        drop(unauthenticated_warn_at);
+            //        self.client.show_message(MessageType::WARNING, "You are currently unauthenticated and will get rate limited. To reduce rate limiting, login with your API Token and consider subscribing to PRO: https://huggingface.co/pricing#pro").await;
+            //        let mut unauthenticated_warn_at = self.unauthenticated_warn_at.write().await;
+            //        *unauthenticated_warn_at = Instant::now();
+            //    }
+            //}
             let completion_type = should_complete(document, params.text_document_position.position)?;
             info!(%completion_type, "completion type: {completion_type:?}");
             if completion_type == CompletionType::Empty {
